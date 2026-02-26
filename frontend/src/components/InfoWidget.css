@@ -1,0 +1,129 @@
+/**
+ * InfoWidget.css - 信息小组件样式
+ * 
+ * 功能介绍：
+ * 本样式文件定义了左上角信息小组件的外观，包括：
+ * - 当前时间（大字号显示）
+ * - 日期和星期（垂直排列）
+ * - 天气信息（图标、温度、天气状况）
+ * - 磨砂玻璃效果面板
+ * 
+ * 布局结构：
+ * [时间] | [日期/星期] | [天气图标] [温度/状况]
+ * 
+ * 关联组件：InfoWidget.jsx
+ * 
+ * 注意：天气数据需要外部 API 支持，当前可能显示静态或模拟数据
+ */
+
+@import '../styles/variables.css';
+
+/* ============================================
+   主容器
+   ============================================ */
+
+/* 信息小组件主容器 */
+.info-widget {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-xl);                 /* 16px间距 */
+    color: var(--color-text-inverse);     /* 白色文字 */
+    font-family: var(--font-family-base);
+    user-select: none;                    /* 禁止选中 */
+
+    /* 统一磨砂玻璃样式 - 与搜索栏保持一致 */
+    background: var(--glass-bg-light);    /* 40%白色磨砂 */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border-light); /* 白色边框 */
+    box-shadow: var(--shadow-sm);         /* 小阴影 */
+    padding: 0 var(--space-xl);          /* 0 16px */
+    border-radius: var(--radius-4xl);     /* 22px圆角 */
+    height: var(--height-md);             /* 44px固定高度 */
+    box-sizing: border-box;
+}
+
+/* ============================================
+   时间显示
+   ============================================ */
+
+/* 大字号时间显示 */
+.info-time {
+    font-size: var(--font-size-3xl);      /* 24px */
+    font-weight: var(--font-weight-semibold); /* 600半粗 */
+    margin: 0;
+    line-height: 1;                       /* 紧凑行高 */
+    letter-spacing: -0.5px;               /* 轻微负字距 */
+    text-shadow: none;
+}
+
+/* ============================================
+   日期信息
+   ============================================ */
+
+/* 日期容器 - 垂直排列 */
+.info-date-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;                             /* 日期与星期间距 */
+}
+
+/* 日期文字 */
+.info-date {
+    font-size: var(--font-size-xs);       /* 11px */
+    font-weight: var(--font-weight-medium); /* 500 */
+    opacity: 0.9;                         /* 轻微透明 */
+    margin: 0;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+}
+
+/* 星期文字 */
+.info-weekday {
+    font-size: var(--font-size-xs);       /* 11px */
+    font-weight: var(--font-weight-medium);
+    opacity: 0.9;
+    margin: 0;
+    letter-spacing: 0.2px;
+    white-space: nowrap;
+}
+
+/* ============================================
+   天气信息
+   ============================================ */
+
+/* 天气区域容器 */
+.info-right-col {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);                 /* 8px间距 */
+}
+
+/* 天气图标 */
+.weather-icon {
+    color: var(--color-white-95);         /* 95%白色 */
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1)); /* 轻微阴影 */
+}
+
+/* 天气文字容器 */
+.weather-text {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 温度显示 */
+.weather-temp {
+    font-size: var(--font-size-md);       /* 14px */
+    font-weight: 600;
+    line-height: 1;
+}
+
+/* 天气状况描述 */
+.weather-cond {
+    font-size: var(--font-size-xs);       /* 11px */
+    font-weight: var(--font-weight-normal); /* 400常规 */
+    opacity: 0.8;
+    margin-top: 1px;
+}

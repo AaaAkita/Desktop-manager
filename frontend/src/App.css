@@ -1,0 +1,96 @@
+/* App全局样式 */
+@import './styles/variables.css';
+.app-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    transition: background-image 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 粘贴操作反馈 */
+.paste-feedback {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 1000;
+    animation: slideInRight 0.3s ease-out, fadeOut 0.5s ease-out 2.5s forwards;
+    max-width: 400px;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+}
+
+/* 粘贴成功 - 使用90%透明度绿色背景 */
+.paste-success {
+    background: rgba(76, 175, 80, 0.9);
+    color: var(--color-text-inverse);
+    border-left: 4px solid var(--color-success);
+}
+
+/* 粘贴失败 - 使用90%透明度红色背景 */
+.paste-error {
+    background: rgba(244, 67, 54, 0.9);
+    color: var(--color-text-inverse);
+    border-left: 4px solid var(--color-danger);
+}
+
+/* 粘贴处理中 - 使用90%透明度蓝色背景 */
+.paste-processing {
+    background: rgba(33, 150, 243, 0.9);
+    color: var(--color-text-inverse);
+    border-left: 4px solid var(--color-primary);
+}
+
+.paste-message {
+    flex: 1;
+    font-size: var(--font-size-md);
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.paste-close-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: var(--font-size-xl);
+    cursor: pointer;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    transition: var(--transition-normal);
+}
+
+.paste-close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}

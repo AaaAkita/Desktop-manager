@@ -1,0 +1,133 @@
+/**
+ * Dock.css - Dock栏组件样式
+ * 
+ * 功能介绍：
+ * 本样式文件定义了底部 Dock 栏的外观和交互效果，包括：
+ * - Dock 容器布局（固定在底部中央）
+ * - 磨砂玻璃效果面板
+ * - Dock 图标项样式（支持拖拽添加）
+ * - 空 Dock 提示状态
+ * - 活跃应用指示器（小圆点）
+ * - 图标悬停放大动画（通过 JS 动态控制）
+ * 
+ * 特色效果：
+ * - macOS 风格磨砂玻璃 Dock
+ * - 图标悬停放大效果
+ * - 活跃状态指示点
+ * 
+ * 关联组件：Dock.jsx
+ */
+
+@import '../styles/variables.css';
+
+/* ============================================
+   Dock 容器
+   ============================================ */
+
+/* Dock 主容器 - 固定在底部 */
+.dock-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-bottom: var(--space-6xl);     /* 40px底部间距，创造呼吸感 */
+    margin-top: auto;                     /* 在 Flex 容器中推到底部 */
+    z-index: var(--z-dropdown);           /* 100层级 */
+    pointer-events: none;                 /* 让周围区域点击穿透 */
+}
+
+/* ============================================
+   Dock 玻璃面板
+   ============================================ */
+
+/* Dock 玻璃面板主体 */
+.dock-glass {
+    pointer-events: auto;                 /* 恢复面板内点击 */
+    display: flex;
+    align-items: flex-end;                /* 图标底部对齐 */
+    height: auto;
+    padding: var(--dock-padding);         /* 10px 14px */
+    background: var(--glass-bg-heavy);    /* 20%白色磨砂背景 */
+    backdrop-filter: blur(20px);          /* 20px模糊 */
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border-dark); /* 白色边框 */
+    border-radius: var(--radius-4xl);     /* 22px大圆角 */
+    box-shadow: var(--shadow-lg);         /* 大阴影 */
+    gap: var(--dock-gap);                 /* 20px图标间距 */
+    transition: width 0.3s;               /* 宽度变化动画 */
+    width: auto;                          /* 自动宽度 */
+    min-width: 100px;                     /* 最小宽度 */
+    min-height: 50px;                     /* 最小高度 */
+}
+
+/* 空 Dock 状态 - 提示拖拽添加 */
+.dock-glass.empty-dock {
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed var(--color-white-30); /* 虚线边框 */
+    background: var(--color-black-10);    /* 10%黑色背景 */
+}
+
+/* ============================================
+   Dock 图标项
+   ============================================ */
+
+/* 单个 Dock 图标项 */
+.dock-item {
+    width: var(--dock-app-size);          /* 50px */
+    height: var(--dock-app-size);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    flex-direction: column;               /* 垂直排列（图标+指示器） */
+    transition: var(--transition-transform); /* transform过渡动画 */
+}
+
+/* 图标容器 */
+.dock-icon-container {
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-2xl);     /* 14px圆角 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease;            /* 全属性过渡 */
+    overflow: hidden;
+    padding: var(--space-md);             /* 8px内边距 */
+    box-sizing: border-box;
+}
+
+/* Dock 图标图片 */
+.dock-icon-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;                  /* 保持比例 */
+    filter: drop-shadow(var(--shadow-sm)); /* 小阴影 */
+}
+
+/* ============================================
+   活跃指示器
+   ============================================ */
+
+/* 活跃应用指示点 - 显示在图标下方 */
+.active-indicator {
+    position: absolute;
+    bottom: -8px;                         /* 图标下方8px */
+    width: 6px;
+    height: 6px;
+    background-color: var(--color-white-80); /* 80%白色 */
+    border-radius: var(--radius-full);    /* 圆形 */
+    box-shadow: var(--shadow-sm);         /* 小阴影 */
+    transition: var(--transition-fast);   /* 快速过渡 */
+    will-change: transform;               /* 提示浏览器优化transform */
+    cursor: pointer;
+}
+
+/* ============================================
+   交互状态
+   ============================================ */
+
+/* 图标点击时的暗化效果 */
+.dock-icon:active {
+    filter: brightness(0.8);              /* 亮度降低20% */
+}

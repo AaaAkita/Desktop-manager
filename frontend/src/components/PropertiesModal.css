@@ -1,0 +1,238 @@
+/**
+ * PropertiesModal.css - 属性弹窗组件样式
+ * 
+ * 功能介绍：
+ * 本样式文件定义了文件/应用属性弹窗的外观和布局，包括：
+ * - 半透明背景遮罩
+ * - 磨砂玻璃效果弹窗面板
+ * - 弹窗头部（标题+关闭按钮）
+ * - 属性列表网格（标签-值对）
+ * - 底部操作按钮
+ * - 自定义滚动条样式
+ * - 响应式适配（移动端）
+ * 
+ * 显示内容：
+ * - 文件名称、路径
+ * - 文件大小
+ * - 创建/修改时间
+ * - 文件类型、扩展名
+ * 
+ * 关联组件：PropertiesModal.jsx
+ */
+
+@import '../styles/variables.css';
+
+/* ============================================
+   背景遮罩
+   ============================================ */
+
+/* 半透明背景遮罩 */
+.properties-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);       /* 50%黑色遮罩 */
+    backdrop-filter: blur(4px);           /* 轻微模糊 */
+    z-index: var(--z-modal-backdrop);     /* 999层级 */
+}
+
+/* ============================================
+   弹窗主体
+   ============================================ */
+
+/* 属性弹窗面板 */
+.properties-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);     /* 居中定位 */
+    background: var(--color-white-95);    /* 95%白色 */
+    backdrop-filter: blur(20px);          /* 磨砂效果 */
+    border-radius: var(--radius-xl);      /* 12px圆角 */
+    box-shadow: var(--shadow-modal);      /* 大阴影 */
+    min-width: 600px;                     /* 最小宽度 */
+    max-width: 800px;                     /* 最大宽度 */
+    max-height: 80vh;                     /* 最大高度80%视口 */
+    overflow-y: auto;                     /* 内容超出可滚动 */
+    z-index: var(--z-modal);              /* 1000层级 */
+    animation: modalFadeIn 0.2s cubic-bezier(0.25, 1, 0.5, 1); /* 淡入动画 */
+}
+
+/* 弹窗淡入动画 */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.95); /* 缩小并淡入 */
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* ============================================
+   弹窗头部
+   ============================================ */
+
+/* 头部区域 */
+.properties-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-3xl) var(--space-2xl); /* 24px 20px */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08); /* 底部分隔线 */
+}
+
+/* 标题文字 */
+.properties-modal-header h3 {
+    margin: 0;
+    font-size: var(--font-size-lg);       /* 16px */
+    font-weight: var(--font-weight-semibold); /* 600 */
+    color: var(--color-text-primary);     /* #333 */
+}
+
+/* 关闭按钮 */
+.close-button {
+    background: none;
+    border: none;
+    font-size: var(--font-size-3xl);      /* 24px */
+    cursor: pointer;
+    color: var(--color-text-secondary);   /* #666 */
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);      /* 6px圆角 */
+    transition: var(--transition-normal); /* 过渡动画 */
+}
+
+/* 关闭按钮悬停 */
+.close-button:hover {
+    background: rgba(0, 0, 0, 0.05);      /* 5%黑色背景 */
+    color: var(--color-text-primary);
+}
+
+/* ============================================
+   属性内容区
+   ============================================ */
+
+/* 内容区域 */
+.properties-modal-content {
+    padding: var(--space-2xl);            /* 20px */
+}
+
+/* 属性网格 - 垂直排列 */
+.properties-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);                 /* 12px间距 */
+}
+
+/* 单个属性项 */
+.property-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;                            /* 标签与值间距 */
+    margin-bottom: var(--space-md);      /* 8px底部间距 */
+}
+
+/* 属性标签 */
+.property-label {
+    font-size: var(--font-size-base);     /* 13px */
+    font-weight: var(--font-weight-medium); /* 500 */
+    color: var(--color-text-secondary);   /* #666灰色 */
+    min-width: 100px;                     /* 固定最小宽度 */
+    flex-shrink: 0;                       /* 不压缩 */
+}
+
+/* 属性值 */
+.property-value {
+    font-size: var(--font-size-md);       /* 14px */
+    color: var(--color-text-primary);     /* #333深色 */
+    word-break: break-all;                /* 长路径换行 */
+    background: rgba(0, 0, 0, 0.02);      /* 轻微背景 */
+    padding: var(--space-md) var(--space-lg); /* 8px 12px */
+    border-radius: var(--radius-sm);      /* 6px圆角 */
+    border: 1px solid rgba(0, 0, 0, 0.05); /* 浅边框 */
+    flex-grow: 1;                         /* 占据剩余空间 */
+    max-width: calc(100% - 112px);        /* 限制最大宽度 */
+}
+
+/* ============================================
+   底部操作区
+   ============================================ */
+
+/* 底部区域 */
+.properties-modal-footer {
+    display: flex;
+    justify-content: flex-end;            /* 右对齐 */
+    padding: var(--space-3xl) var(--space-2xl); /* 24px 20px */
+    border-top: 1px solid rgba(0, 0, 0, 0.08); /* 顶部分隔线 */
+}
+
+/* 确定按钮 */
+.ok-button {
+    background: var(--color-primary);     /* #007AFF蓝色 */
+    color: var(--color-text-inverse);     /* 白色文字 */
+    border: none;
+    padding: var(--space-md) var(--space-2xl); /* 8px 20px */
+    border-radius: var(--radius-md);      /* 8px圆角 */
+    font-size: var(--font-size-md);       /* 14px */
+    font-weight: var(--font-weight-medium); /* 500 */
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+/* 确定按钮悬停 */
+.ok-button:hover {
+    background: var(--color-primary-hover); /* 深蓝色 */
+    transform: translateY(-1px);          /* 轻微上浮 */
+    box-shadow: var(--shadow-button);     /* 蓝色阴影 */
+}
+
+/* 确定按钮点击 */
+.ok-button:active {
+    transform: translateY(0);             /* 恢复原位 */
+}
+
+/* ============================================
+   响应式适配
+   ============================================ */
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .properties-modal {
+        min-width: 90%;                   /* 更窄的宽度 */
+        margin: 0 10px;
+    }
+}
+
+/* ============================================
+   自定义滚动条
+   ============================================ */
+
+/* 滚动条宽度 */
+.properties-modal::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* 滚动条轨道 */
+.properties-modal::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);      /* 5%黑色 */
+    border-radius: 4px;
+}
+
+/* 滚动条滑块 */
+.properties-modal::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);       /* 20%黑色 */
+    border-radius: 4px;
+}
+
+/* 滚动条滑块悬停 */
+.properties-modal::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);       /* 30%黑色 */
+}

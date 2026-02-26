@@ -1,0 +1,199 @@
+/**
+ * AppGrid.css - 应用网格组件样式
+ * 
+ * 功能介绍：
+ * 本样式文件定义了桌面应用图标网格的布局和外观，包括：
+ * - 分页网格布局（每页8x4网格，支持多页滑动）
+ * - 应用卡片样式（图标、名称、磨砂玻璃效果）
+ * - 分页指示器（底部圆点导航）
+ * - 新文件动画效果（添加新文件时的入场动画）
+ * - 鼠标悬停和交互动画
+ * 
+ * 关联组件：AppGrid.jsx
+ */
+
+@import '../styles/variables.css';
+
+/* ============================================
+   主容器
+   ============================================ */
+
+/* 网格主容器 - 占据中间主要区域 */
+.app-grid-container {
+    flex: 1;                              /* 弹性占据剩余空间 */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;       /* 网格和分页点分布两端 */
+    align-items: center;
+    overflow: hidden;                     /* 隐藏其他页面的内容 */
+    padding: var(--space-2xl) 0;         /* 上下内边距 */
+    z-index: 5;
+    width: 100%;
+    position: relative;
+}
+
+/* ============================================
+   分页滑动系统
+   ============================================ */
+
+/* 页面包装器 - 包含所有分页，支持水平滑动 */
+.pages-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);  /* iOS风格平滑滑动 */
+}
+
+/* 单个页面 - 占满视口宽度 */
+.app-page {
+    min-width: 100%;                      /* 确保每页占满整个宽度 */
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-shrink: 0;                       /* 防止页面被压缩 */
+    padding: 0 40px;
+    box-sizing: border-box;
+}
+
+/* ============================================
+   网格内容区
+   ============================================ */
+
+/* 实际网格容器 - 8列4行的网格布局 */
+.page-content-center {
+    width: 100%;
+    max-width: 1000px;                    /* 与header保持一致的最大宽度 */
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr); /* 8列等宽 */
+    grid-template-rows: repeat(4, 1fr);   /* 4行等高 */
+    gap: var(--space-2xl) var(--space-xl); /* 行列间距 */
+    padding: var(--space-2xl) 0;
+    box-sizing: border-box;
+    align-content: center;                /* 内容较少时垂直居中 */
+}
+
+/* ============================================
+   应用卡片
+   ============================================ */
+
+/* 应用卡片 - 包含图标和名称 */
+.app-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);                 /* 图标与名称间距 */
+    cursor: pointer;
+    transition: transform 0.2s;           /* 悬停放大过渡 */
+    width: 100%;
+}
+
+/* 卡片悬停效果 */
+.app-card:hover {
+    transform: scale(1.05);               /* 放大5% */
+}
+
+/* 大图标容器 - iOS风格圆角方形 */
+.app-icon-large {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-2xl);     /* 14px圆角 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* 图标阴影 */
+    /* 背景色通过行内样式动态设置 */
+}
+
+/* 应用名称 - 带磨砂玻璃效果 */
+.app-name {
+    font-size: var(--font-size-base);     /* 13px */
+    color: var(--color-text-primary);     /* #333深灰 */
+    font-weight: var(--font-weight-medium); /* 500中等粗细 */
+    text-align: center;
+    white-space: nowrap;                  /* 不换行 */
+    overflow: hidden;
+    text-overflow: ellipsis;              /* 超出显示省略号 */
+    max-width: 90px;                      /* 最大宽度限制 */
+    /* 磨砂玻璃样式 */
+    background: var(--color-white-10);    /* 10%白色透明度 */
+    backdrop-filter: blur(var(--blur-sm)); /* 8px模糊 */
+    -webkit-backdrop-filter: blur(var(--blur-sm));
+    padding: var(--space-xs) var(--space-md); /* 4px 8px */
+    border-radius: var(--radius-md);      /* 8px圆角 */
+    box-shadow: var(--shadow-sm);         /* 小阴影 */
+}
+
+/* ============================================
+   分页指示器
+   ============================================ */
+
+/* 分页圆点容器 */
+.pagination-dots {
+    display: flex;
+    gap: var(--space-md);                 /* 圆点间距 */
+    padding-bottom: var(--space-2xl);    /* 底部间距 */
+    z-index: 10;
+}
+
+/* 单个圆点 */
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);    /* 圆形 */
+    background: rgba(255, 255, 255, 0.3); /* 30%白色 */
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+/* 当前页圆点 - 激活状态 */
+.dot.active {
+    background: #fff;                     /* 纯白色 */
+    transform: scale(1.2);                /* 放大20% */
+}
+
+/* ============================================
+   新文件动画
+   ============================================ */
+
+/* 新添加的文件卡片动画 */
+.app-card.new-item {
+    animation: newItemAppear 0.6s ease-out; /* 入场动画 */
+}
+
+/* 新文件入场动画关键帧 */
+@keyframes newItemAppear {
+    0% {
+        opacity: 0;
+        transform: scale(0.5) translateY(-20px);
+    }
+    50% {
+        transform: scale(1.1) translateY(0);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* 新文件图标发光动画 */
+.app-card.new-item .app-icon-large {
+    animation: iconGlow 1s ease-in-out infinite alternate; /* 无限循环发光 */
+}
+
+/* 图标发光动画关键帧 */
+@keyframes iconGlow {
+    0% {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    100% {
+        box-shadow: 0 4px 20px rgba(76, 175, 80, 0.6); /* 绿色光晕 */
+    }
+}
+
+/* 新文件名称样式 */
+.app-card.new-item .app-name {
+    color: var(--color-success);          /* 绿色文字 */
+    text-shadow: 0 1px 3px rgba(76, 175, 80, 0.5); /* 绿色阴影 */
+}

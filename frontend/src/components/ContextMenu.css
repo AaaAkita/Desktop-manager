@@ -1,0 +1,124 @@
+/**
+ * ContextMenu.css - 右键菜单组件样式
+ * 
+ * 功能介绍：
+ * 本样式文件定义了右键上下文菜单的外观和动画，包括：
+ * - 菜单背景遮罩（点击外部关闭）
+ * - 磨砂玻璃效果菜单面板
+ * - 菜单项样式（普通项、危险操作项如删除）
+ * - 分隔线样式
+ * - 菜单弹出动画（淡入+缩放）
+ * 
+ * 使用场景：
+ * - 应用图标右键菜单（打开、以管理员运行、属性等）
+ * - Dock栏图标右键菜单
+ * - 桌面空白区域右键菜单（粘贴、刷新）
+ * 
+ * 关联组件：ContextMenu.jsx
+ */
+
+@import '../styles/variables.css';
+
+/* ============================================
+   菜单遮罩层
+   ============================================ */
+
+/* 背景遮罩 - 用于捕获点击事件关闭菜单 */
+.context-menu-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: var(--z-modal-backdrop);     /* 999，低于菜单 */
+}
+
+/* ============================================
+   菜单主体
+   ============================================ */
+
+/* 右键菜单面板 - 磨砂玻璃效果 */
+.context-menu {
+    position: fixed;
+    z-index: var(--z-modal);              /* 1000，最高层级 */
+    background: var(--color-white-95);    /* 95%白色，接近不透明 */
+    backdrop-filter: blur(20px);          /* 20px模糊磨砂效果 */
+    border-radius: var(--radius-lg);      /* 10px圆角 */
+    padding: var(--space-sm);             /* 6px内边距 */
+    min-width: 160px;                     /* 最小宽度 */
+    box-shadow: var(--shadow-lg-colored),  /* 大阴影 */
+        0 0 0 1px var(--color-black-05);  /* 1px边框线 */
+    animation: menuFadeIn 0.15s cubic-bezier(0.25, 1, 0.5, 1); /* 快速淡入动画 */
+}
+
+/* 菜单淡入动画关键帧 */
+@keyframes menuFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-5px); /* 初始缩小并上移 */
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);       /* 恢复正常 */
+    }
+}
+
+/* ============================================
+   菜单项
+   ============================================ */
+
+/* 单个菜单项 */
+.context-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;                             /* 图标与文字间距 */
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);      /* 6px圆角 */
+    cursor: pointer;
+    transition: background 0.1s;          /* 快速背景过渡 */
+    color: var(--color-text-primary);     /* #333深灰文字 */
+    font-size: var(--font-size-base);     /* 13px字号 */
+    font-weight: var(--font-weight-medium); /* 500中等粗细 */
+    user-select: none;                    /* 禁止选中文字 */
+}
+
+/* 菜单项悬停效果 */
+.context-menu-item:hover {
+    background: var(--color-black-05);    /* 5%黑色背景 */
+}
+
+/* ============================================
+   危险操作项
+   ============================================ */
+
+/* 危险操作菜单项（如删除） */
+.context-menu-item.danger {
+    color: var(--color-danger);           /* 红色文字 #ff3b30 */
+}
+
+/* 危险项悬停效果 */
+.context-menu-item.danger:hover {
+    background: var(--color-danger-light); /* 淡红色背景 */
+}
+
+/* ============================================
+   辅助元素
+   ============================================ */
+
+/* 菜单图标（当前未使用，保留以备将来扩展） */
+.menu-icon {
+    display: none;
+}
+
+/* 菜单文字标签 */
+.menu-label {
+    flex: 1;                              /* 占据剩余空间 */
+    text-align: left;
+}
+
+/* 分隔线 - 用于分组菜单项 */
+.context-menu-separator {
+    height: 1px;
+    background: rgba(0, 0, 0, 0.08);      /* 8%黑色 */
+    margin: var(--space-xs) var(--space-sm); /* 4px 6px */
+}
