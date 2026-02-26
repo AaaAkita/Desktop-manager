@@ -188,9 +188,15 @@ function createWindow() {
     // 获取当前显示器的分辨�?
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
 
+    // 图标路径：开发模式从项目根目录读取，生产模式从 resources 目录读取
+    const iconPath = app.isPackaged
+        ? path.join(process.resourcesPath, 'icon', 'DM.ico')
+        : path.join(__dirname, '../../icon/DM.ico');
+
     mainWindow = new BrowserWindow({
         width: width,
         height: height,
+        icon: iconPath,
         frame: false,
         transparent: true,
         webPreferences: {

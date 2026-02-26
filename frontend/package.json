@@ -30,9 +30,18 @@
         "filter": [
           "**/*"
         ]
+      },
+      {
+        "from": "../icon",
+        "to": "icon",
+        "filter": [
+          "*.ico",
+          "*.png"
+        ]
       }
     ],
     "win": {
+      "icon": "../icon/DM.ico",
       "target": [
         {
           "target": "nsis",
